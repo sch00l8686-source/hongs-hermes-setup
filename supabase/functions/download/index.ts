@@ -88,13 +88,14 @@ state, and no machine-local paths.
 `;
 
 function handler() {
-  return new Response(PAGE, {
-    status: 200,
-    headers: {
-      "content-type": "text/html; charset=utf-8",
-      "cache-control": "public, max-age=300",
-    },
-  });
+  // Built as an explicit `Headers` instance with canonically spelled names:
+  // handed a lowercase plain object literal, the Supabase Edge Runtime served
+  // this page as `text/plain` with `X-Content-Type-Options: nosniff`, so
+  // browsers displayed the raw markup instead of rendering it.
+  const headers = new Headers();
+  headers.set("Content-Type", "text/html; charset=utf-8");
+  headers.set("Cache-Control", "public, max-age=300");
+  return new Response(PAGE, { status: 200, headers });
 }
 
 Deno.serve(handler);

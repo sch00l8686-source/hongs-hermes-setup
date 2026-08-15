@@ -101,6 +101,41 @@ check(
   `content-type "${contentType}", expected text/html with charset=utf-8`,
 );
 
+// --- canonical header construction ---------------------------------------
+// Deployed on the Supabase Edge Runtime, this page was served as
+// `text/plain` with `X-Content-Type-Options: nosniff` while the header set was
+// handed to `Response` as a lowercase plain object literal, so browsers showed
+// the raw markup. The header set must be built as an explicit `Headers`
+// instance carrying canonically spelled names, and the response it produces
+// must still carry both values.
+const headerProblems = [];
+if (!/new\s+Headers\s*\(/.test(source)) {
+  headerProblems.push("the source builds no explicit `new Headers(...)` instance");
+}
+if (!/\.set\(\s*"Content-Type"\s*,\s*"text\/html; charset=utf-8"\s*\)/.test(source)) {
+  headerProblems.push('the source sets no canonical "Content-Type": "text/html; charset=utf-8"');
+}
+if (!/\.set\(\s*"Cache-Control"\s*,\s*"public, max-age=300"\s*\)/.test(source)) {
+  headerProblems.push('the source sets no canonical "Cache-Control": "public, max-age=300"');
+}
+if (/headers\s*:\s*\{/.test(source)) {
+  headerProblems.push("`Response` still receives a plain object header literal");
+}
+if (!contentType.startsWith("text/html")) {
+  headerProblems.push(`the response carries content-type "${contentType}"`);
+}
+const cacheControl = (response.headers.get("cache-control") || "").toLowerCase();
+if (cacheControl !== "public, max-age=300") {
+  headerProblems.push(`the response carries cache-control "${cacheControl}"`);
+}
+check(
+  "canonical-header-construction",
+  headerProblems.length === 0,
+  headerProblems.length === 0
+    ? "explicit Headers instance with canonical Content-Type and Cache-Control"
+    : headerProblems.join("; "),
+);
+
 // --- accessible, static markup -------------------------------------------
 const markers = [
   ["doctype", /^<!doctype html>/i.test(body.trim())],
