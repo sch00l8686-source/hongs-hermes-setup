@@ -1,0 +1,15 @@
+# Supabase configuration for the public download page.
+#
+# This file declares one Edge Function and nothing else. No database, no
+# Storage, no Auth, no analytics, and no project reference: the deployment
+# target is chosen by the user at the external gate, so this file stays
+# target-agnostic and carries no credential and no project secret.
+#
+# `verify_jwt = false` is what makes the page reachable without a JWT, which is
+# the whole point of a public download page.
+# https://supabase.com/docs/guides/functions/function-configuration
+
+project_id = "hongs-hermes-setup"
+
+[functions.download]
+verify_jwt = false

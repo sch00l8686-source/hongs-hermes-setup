@@ -1,0 +1,6 @@
+name: hongs-vault-router
+version: 1.0.0
+kind: standalone
+description: "Deterministic selective Vault routing: exactly one heartbeat per Hermes user turn."
+provides_hooks:
+  - pre_llm_call

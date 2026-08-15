@@ -1,0 +1,281 @@
+{
+  "files": [
+    {
+      "destination": "CLAUDE.md",
+      "sha256": "38dd79b3b5315da7b3724c180bf29754a8a22e3737aa88cff12abc981cf6ec0a",
+      "source": "baseline/agents/claude/CLAUDE.md",
+      "targetRoot": "ClaudeHome"
+    },
+    {
+      "destination": "AGENTS.md",
+      "sha256": "5ea564ab236d193b9812bc919d433436d23145f96b0b35d2bec113a1e9f3dcb1",
+      "source": "baseline/agents/codex/AGENTS.md",
+      "targetRoot": "CodexHome"
+    },
+    {
+      "destination": "SOUL.md",
+      "sha256": "0d5c034ca2d5347ccf08310c11946d8f0ed1f840bda197f0a9c75d38ea748ca8",
+      "source": "baseline/hermes/SOUL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "plugins/hongs-vault-router/__init__.py",
+      "sha256": "8f5014871f136a0bdd576c1173d6cc4197e015e3aefef062cd555b4ddbefa3e6",
+      "source": "baseline/hermes/plugins/hongs-vault-router/__init__.py",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "plugins/hongs-vault-router/plugin.yaml",
+      "sha256": "9ea1cb372253417027a1d380645628bb1f3d15eb488ac60bd240a81bb5e1de59",
+      "source": "baseline/hermes/plugins/hongs-vault-router/plugin.yaml",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "plugins/hongs-vault-router/router.py",
+      "sha256": "858aca41ef7a518959a160ad81dd5fd36ad2bf75578405f957b8e5f16db47c47",
+      "source": "baseline/hermes/plugins/hongs-vault-router/router.py",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/automation/execution-continuity/SKILL.md",
+      "sha256": "81517b41c553c2a8a36f4ed2087e89bb09412d3de6f7ff3ca787fa631fbca9eb",
+      "source": "baseline/skills/automation/execution-continuity/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/automation/execution-continuity/references/goal-fidelity-and-user-gates.md",
+      "sha256": "b0336b5ad5672eeee3eaf615dabb3f3da6ce3bf0a6207299e69c0cbab7fef92f",
+      "source": "baseline/skills/automation/execution-continuity/references/goal-fidelity-and-user-gates.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/automation/execution-continuity/references/interaction-boundaries.md",
+      "sha256": "243da5b0c6baaaaadbcb89f04f6aa993e0a55d8b83131d1568e655f281c56bf9",
+      "source": "baseline/skills/automation/execution-continuity/references/interaction-boundaries.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/agent-context-efficiency/SKILL.md",
+      "sha256": "1aad0a2629509817b5ce6f9c54153633fa5cbba61563dc94385d07078c10b153",
+      "source": "baseline/skills/autonomous-ai-agents/agent-context-efficiency/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/agent-context-efficiency/references/caveman-evaluation.md",
+      "sha256": "8b73c4f9687c3e30131d322db5b049b6da1896776ef40b9bdf55e23f192f69ac",
+      "source": "baseline/skills/autonomous-ai-agents/agent-context-efficiency/references/caveman-evaluation.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/agent-context-governance/SKILL.md",
+      "sha256": "a0a39a7aaa98012c47d358240322a0187e5c9bb06e63f87dbc4de8781ed7e4e0",
+      "source": "baseline/skills/autonomous-ai-agents/agent-context-governance/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/agent-context-governance/references/observable-runtime-contracts.md",
+      "sha256": "44fa6cf59e418c1410b6d735dfcfb92101899a162f303eeaa678d2a8b9267075",
+      "source": "baseline/skills/autonomous-ai-agents/agent-context-governance/references/observable-runtime-contracts.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/agent-context-governance/references/verified-governance-patterns.md",
+      "sha256": "91a013f91f9e3e5a88e4f02b353dca3852cb5e3d52c9a21afe338638ef41a5d9",
+      "source": "baseline/skills/autonomous-ai-agents/agent-context-governance/references/verified-governance-patterns.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/mixed-model-agent-orchestration/SKILL.md",
+      "sha256": "83f5f2227e89eb8ef3f27e62d3226f91592e97f3cb8dc812b95aa85428493de7",
+      "source": "baseline/skills/autonomous-ai-agents/mixed-model-agent-orchestration/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/mixed-model-agent-orchestration/references/approval-safe-agent-runs.md",
+      "sha256": "181657b2ddacb032c781ddf21dbc698fbeb567e51c07b056caac01c2607cfe32",
+      "source": "baseline/skills/autonomous-ai-agents/mixed-model-agent-orchestration/references/approval-safe-agent-runs.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/mixed-model-agent-orchestration/references/bounded-worker-evidence.md",
+      "sha256": "3e902407489e434c1f6fb7aa64376853f85602d31e86e547acda240a9251bae4",
+      "source": "baseline/skills/autonomous-ai-agents/mixed-model-agent-orchestration/references/bounded-worker-evidence.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/mixed-model-agent-orchestration/references/claude-code-subscription-routing.md",
+      "sha256": "5d1b2502af022a0d89ee16d7b9ceb32315c3203badc2099656a85810e8a02d83",
+      "source": "baseline/skills/autonomous-ai-agents/mixed-model-agent-orchestration/references/claude-code-subscription-routing.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/mixed-model-agent-orchestration/references/plan-scoped-codex-opus-review-gate.md",
+      "sha256": "92e73ce95d5571087646051bb03b56827a3331de6715b224e0a95fa3a5fc732d",
+      "source": "baseline/skills/autonomous-ai-agents/mixed-model-agent-orchestration/references/plan-scoped-codex-opus-review-gate.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/mixed-model-agent-orchestration/references/root-model-adjudication-and-context-checkpoints.md",
+      "sha256": "fba49946824ba050ecb72ce4bb378a9a8f1505be07eff84d16e44f4cc45e6881",
+      "source": "baseline/skills/autonomous-ai-agents/mixed-model-agent-orchestration/references/root-model-adjudication-and-context-checkpoints.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/review-gated-config-distribution/SKILL.md",
+      "sha256": "b59fc39fde147bf99ee3954636b4767e1a0f1a066631d0a98dc9fe399f108ad5",
+      "source": "baseline/skills/autonomous-ai-agents/review-gated-config-distribution/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/review-gated-config-distribution/references/live-runtime-verification-instruments.md",
+      "sha256": "eb605eeaf71de1a776633ee17e07137b6deead7d8168cd226351b37cf797731c",
+      "source": "baseline/skills/autonomous-ai-agents/review-gated-config-distribution/references/live-runtime-verification-instruments.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/review-gated-config-distribution/references/local-runtime-contract-activation.md",
+      "sha256": "38e92e546fe953df9bed79831a1588f7642639801b02e607ad54a6716f066449",
+      "source": "baseline/skills/autonomous-ai-agents/review-gated-config-distribution/references/local-runtime-contract-activation.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/subagent-coding-context/SKILL.md",
+      "sha256": "8d8cbd8c08f391f7d121fe8f3b93f13c1036d071e6b8e112977d0654370ccff0",
+      "source": "baseline/skills/autonomous-ai-agents/subagent-coding-context/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/autonomous-ai-agents/supervised-agent-workflow/SKILL.md",
+      "sha256": "74f683f754c3d3319203e5d4d2f5f0afb4351ccbd4687dc2a432dc3607e6bbb2",
+      "source": "baseline/skills/autonomous-ai-agents/supervised-agent-workflow/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/note-taking/obsidian-vault-ingest/SKILL.md",
+      "sha256": "0cec56b6ff1e5b6839813e000eb1529bed335925ba00f7d9d84aa52bbbbf914d",
+      "source": "baseline/skills/note-taking/obsidian-vault-ingest/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/note-taking/obsidian-vault-lint/SKILL.md",
+      "sha256": "e8be0f160d59a87587ab995d47a21e84820410d38847a8013358b353e4664af3",
+      "source": "baseline/skills/note-taking/obsidian-vault-lint/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/note-taking/obsidian-vault-query/SKILL.md",
+      "sha256": "e542a06266649c812b3e6eb6dd4d0656966961109956c76e1878408b9ffe9414",
+      "source": "baseline/skills/note-taking/obsidian-vault-query/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/software-development/plan/SKILL.md",
+      "sha256": "9200afef88c402510f530fe6a21ef7b68744a9f784b7d7bab641a912977b89bf",
+      "source": "baseline/skills/software-development/plan/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/brainstorming/SKILL.md",
+      "sha256": "a8c66dabfc6b1a9dbcdf96a63b7357bb22567a04476bb6dc30652724901738c6",
+      "source": "baseline/skills/superpowers/brainstorming/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/dispatching-parallel-agents/SKILL.md",
+      "sha256": "361a5888899e747d4aa7b038992a5eafe372c9240bbdde72c96767ab241038a5",
+      "source": "baseline/skills/superpowers/dispatching-parallel-agents/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/executing-plans/SKILL.md",
+      "sha256": "2ffbae3be99a5b969c55c97c2130f832cb28a2ca07eb56adc74a646296e48755",
+      "source": "baseline/skills/superpowers/executing-plans/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/finishing-a-development-branch/SKILL.md",
+      "sha256": "d0ac8360ed9d59121776ef95c84bcb38e9747de0d7ae7e227dca81e437593b9b",
+      "source": "baseline/skills/superpowers/finishing-a-development-branch/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/receiving-code-review/SKILL.md",
+      "sha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438",
+      "source": "baseline/skills/superpowers/receiving-code-review/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/subagent-driven-development/SKILL.md",
+      "sha256": "489672890bca26520ae7a0543c60d1cfae9d6f4b2bbe7a54622d894929c119e7",
+      "source": "baseline/skills/superpowers/subagent-driven-development/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/subagent-driven-development/references/context-budget-discipline.md",
+      "sha256": "325d4f3b16db3215a1d7d8771b4c03af40cad62a468df5c44757c1e6366f2c9c",
+      "source": "baseline/skills/superpowers/subagent-driven-development/references/context-budget-discipline.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/subagent-driven-development/references/gates-taxonomy.md",
+      "sha256": "2740dbfb83cb58d2e8bffd6d2dca95c2dbccca3b60138dcb81b9be905554043a",
+      "source": "baseline/skills/superpowers/subagent-driven-development/references/gates-taxonomy.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/using-git-worktrees/SKILL.md",
+      "sha256": "8cfb86f121269e8f7f12361e6795c4f6738828340e28964c9229d365666c9edd",
+      "source": "baseline/skills/superpowers/using-git-worktrees/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/using-superpowers/SKILL.md",
+      "sha256": "35a443119279a9c6a027d22958bf33b932cd5f15f3efb1da487a88eb6575dbf2",
+      "source": "baseline/skills/superpowers/using-superpowers/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/using-superpowers/references/antigravity-tools.md",
+      "sha256": "d491c4040bbf2a1c6662bdab2f59c0eb0ba5bd76e20fa384fd68cbdfd240919e",
+      "source": "baseline/skills/superpowers/using-superpowers/references/antigravity-tools.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/using-superpowers/references/codex-tools.md",
+      "sha256": "6727bf661ee940552dea7a38e7f03a6cfef577dab76f43612a407c0251e0948b",
+      "source": "baseline/skills/superpowers/using-superpowers/references/codex-tools.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/using-superpowers/references/gemini-tools.md",
+      "sha256": "c92b54575ee051115b7ffe049546d29a98020378e7868779689eaeae100063a5",
+      "source": "baseline/skills/superpowers/using-superpowers/references/gemini-tools.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/using-superpowers/references/hermes-tools.md",
+      "sha256": "13a8f8e4d34a3a4ee6e092e9168d005974570fa693bb9b5241c244038454b5c1",
+      "source": "baseline/skills/superpowers/using-superpowers/references/hermes-tools.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/using-superpowers/references/pi-tools.md",
+      "sha256": "33efd00d99e9de5b6f2315496b0686943a134ad3ad80c51c2e6878cdb921f57e",
+      "source": "baseline/skills/superpowers/using-superpowers/references/pi-tools.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/verification-before-completion/SKILL.md",
+      "sha256": "a7731c634bd3288d4d4726d252e3a0c040c437b148d21e04784562c7180005e0",
+      "source": "baseline/skills/superpowers/verification-before-completion/SKILL.md",
+      "targetRoot": "HermesHome"
+    },
+    {
+      "destination": "skills/superpowers/writing-plans/SKILL.md",
+      "sha256": "f16b4ff97f4781316a1fd8819f8ea11ff47f7aabfe8d5d3873365d19ad8223c9",
+      "source": "baseline/skills/superpowers/writing-plans/SKILL.md",
+      "targetRoot": "HermesHome"
+    }
+  ],
+  "schemaVersion": 1
+}

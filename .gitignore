@@ -1,0 +1,9 @@
+.worktrees/
+
+# manifest/harness-manifest.json is generated but tracked: it is the reviewed
+# record of what the installer may write, and `--check` plus `git diff` prove it
+# has not gone stale against baseline/.
+
+# Python bytecode from the validator and manifest builder.
+__pycache__/
+*.pyc

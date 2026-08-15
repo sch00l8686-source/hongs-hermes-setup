@@ -1,0 +1,10 @@
+# Managed harness sources and the manifest that records their hashes are pinned
+# to LF in every checkout. SHA-256 is byte-sensitive: with `core.autocrlf=true`
+# an unpinned checkout would rewrite every managed byte to CRLF and none of the
+# tracked manifest hashes would match. These rules keep the checkout, the Git
+# blob, and the manifest byte-identical on Windows, macOS, and Linux.
+baseline/** text eol=lf
+manifest/*.json text eol=lf
+# The routing contract is inserted verbatim into wiki/index.md, so its bytes
+# must match on every machine that patches or verifies that section.
+contracts/*.md text eol=lf

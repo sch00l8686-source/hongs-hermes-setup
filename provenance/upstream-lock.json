@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "skills": [
+    {
+      "name": "superpowers/using-superpowers",
+      "baselinePath": "baseline/skills/superpowers/using-superpowers",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/superpowers/using-superpowers",
+      "sourceSha256": "f653256a6bc3963260eb0a8aec0fa2110bdf60a1c41729d1b68a23f21d42da71",
+      "sourceType": "obra-superpowers-derived"
+    },
+    {
+      "name": "superpowers/brainstorming",
+      "baselinePath": "baseline/skills/superpowers/brainstorming",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/superpowers/brainstorming",
+      "sourceSha256": "df64f81678d620b1508b118a4ae549e487f8c5d06ffa32f979edebc097f42e4a",
+      "sourceType": "obra-superpowers-derived"
+    },
+    {
+      "name": "superpowers/writing-plans",
+      "baselinePath": "baseline/skills/superpowers/writing-plans",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/superpowers/writing-plans",
+      "sourceSha256": "d9ce04be27c0d78da2ec435d06555518821c7973ebf8a16f96e6bb283e67fc03",
+      "sourceType": "obra-superpowers-derived"
+    },
+    {
+      "name": "superpowers/executing-plans",
+      "baselinePath": "baseline/skills/superpowers/executing-plans",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/superpowers/executing-plans",
+      "sourceSha256": "fe85231f6c15b83dfadf1409535d01f304c43b920bc937b1dcc0907ec7824984",
+      "sourceType": "obra-superpowers-derived"
+    },
+    {
+      "name": "superpowers/subagent-driven-development",
+      "baselinePath": "baseline/skills/superpowers/subagent-driven-development",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/superpowers/subagent-driven-development",
+      "sourceSha256": "1bada6b9aafcd7cf09ff96418d00867c5a27d9ba2baf46f021444558d4443171",
+      "sourceType": "obra-superpowers-derived"
+    },
+    {
+      "name": "superpowers/dispatching-parallel-agents",
+      "baselinePath": "baseline/skills/superpowers/dispatching-parallel-agents",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/superpowers/dispatching-parallel-agents",
+      "sourceSha256": "fc9875393a1dcd6b649bf22d9ff62f3a02080c0ce365932451bc73e63d87ddab",
+      "sourceType": "obra-superpowers-derived"
+    },
+    {
+      "name": "superpowers/verification-before-completion",
+      "baselinePath": "baseline/skills/superpowers/verification-before-completion",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/superpowers/verification-before-completion",
+      "sourceSha256": "8f15b9f67e566f286d531b7da77052f4009b5065fd8edfcb659c9f837eebb4a4",
+      "sourceType": "obra-superpowers-derived"
+    },
+    {
+      "name": "software-development/plan",
+      "baselinePath": "baseline/skills/software-development/plan",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/software-development/plan",
+      "sourceSha256": "2ba0a3145bd0bace94cf62bc9d6c49c4e533b1f93cad9a9822efb27deccf9b34",
+      "sourceType": "hong-local-custom"
+    },
+    {
+      "name": "autonomous-ai-agents/supervised-agent-workflow",
+      "baselinePath": "baseline/skills/autonomous-ai-agents/supervised-agent-workflow",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/autonomous-ai-agents/supervised-agent-workflow",
+      "sourceSha256": "8ee3165564003cd2e378035ca8cbbdf923c72dfd324eed3c70599caa0878d500",
+      "sourceType": "hong-local-custom"
+    },
+    {
+      "name": "autonomous-ai-agents/mixed-model-agent-orchestration",
+      "baselinePath": "baseline/skills/autonomous-ai-agents/mixed-model-agent-orchestration",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/autonomous-ai-agents/mixed-model-agent-orchestration",
+      "sourceSha256": "f85f14317778814d5d3586aa48faaf691d60d23d2386d1f8434122ff9291f9f3",
+      "sourceType": "hong-local-custom"
+    },
+    {
+      "name": "autonomous-ai-agents/subagent-coding-context",
+      "baselinePath": "baseline/skills/autonomous-ai-agents/subagent-coding-context",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/autonomous-ai-agents/subagent-coding-context",
+      "sourceSha256": "93ebb0d6cbf74847008a4a73ea5a9b3b69f5ed42ed2db638b2915104bf69931f",
+      "sourceType": "hong-local-custom"
+    },
+    {
+      "name": "automation/execution-continuity",
+      "baselinePath": "baseline/skills/automation/execution-continuity",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/automation/execution-continuity",
+      "sourceSha256": "2e453ea2e40820a6c41da8484082814842703465f797a4e3f5ded3e2699e44cd",
+      "sourceType": "hong-local-custom"
+    },
+    {
+      "name": "superpowers/finishing-a-development-branch",
+      "baselinePath": "baseline/skills/superpowers/finishing-a-development-branch",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/superpowers/finishing-a-development-branch",
+      "sourceSha256": "d0ac8360ed9d59121776ef95c84bcb38e9747de0d7ae7e227dca81e437593b9b",
+      "sourceType": "obra-superpowers-derived"
+    },
+    {
+      "name": "superpowers/receiving-code-review",
+      "baselinePath": "baseline/skills/superpowers/receiving-code-review",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/superpowers/receiving-code-review",
+      "sourceSha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438",
+      "sourceType": "obra-superpowers-derived"
+    },
+    {
+      "name": "superpowers/using-git-worktrees",
+      "baselinePath": "baseline/skills/superpowers/using-git-worktrees",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/superpowers/using-git-worktrees",
+      "sourceSha256": "8cfb86f121269e8f7f12361e6795c4f6738828340e28964c9229d365666c9edd",
+      "sourceType": "obra-superpowers-derived"
+    },
+    {
+      "name": "autonomous-ai-agents/agent-context-efficiency",
+      "baselinePath": "baseline/skills/autonomous-ai-agents/agent-context-efficiency",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/autonomous-ai-agents/agent-context-efficiency",
+      "sourceSha256": "1aad0a2629509817b5ce6f9c54153633fa5cbba61563dc94385d07078c10b153",
+      "sourceType": "hong-local-custom"
+    },
+    {
+      "name": "autonomous-ai-agents/agent-context-governance",
+      "baselinePath": "baseline/skills/autonomous-ai-agents/agent-context-governance",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/autonomous-ai-agents/agent-context-governance",
+      "sourceSha256": "a0a39a7aaa98012c47d358240322a0187e5c9bb06e63f87dbc4de8781ed7e4e0",
+      "sourceType": "hong-local-custom"
+    },
+    {
+      "name": "autonomous-ai-agents/review-gated-config-distribution",
+      "baselinePath": "baseline/skills/autonomous-ai-agents/review-gated-config-distribution",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/autonomous-ai-agents/review-gated-config-distribution",
+      "sourceSha256": "b59fc39fde147bf99ee3954636b4767e1a0f1a066631d0a98dc9fe399f108ad5",
+      "sourceType": "hong-local-custom"
+    },
+    {
+      "name": "note-taking/obsidian-vault-ingest",
+      "baselinePath": "baseline/skills/note-taking/obsidian-vault-ingest",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/note-taking/obsidian-vault-ingest",
+      "sourceSha256": "0cec56b6ff1e5b6839813e000eb1529bed335925ba00f7d9d84aa52bbbbf914d",
+      "sourceType": "hong-local-custom"
+    },
+    {
+      "name": "note-taking/obsidian-vault-lint",
+      "baselinePath": "baseline/skills/note-taking/obsidian-vault-lint",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/note-taking/obsidian-vault-lint",
+      "sourceSha256": "e8be0f160d59a87587ab995d47a21e84820410d38847a8013358b353e4664af3",
+      "sourceType": "hong-local-custom"
+    },
+    {
+      "name": "note-taking/obsidian-vault-query",
+      "baselinePath": "baseline/skills/note-taking/obsidian-vault-query",
+      "liveSourcePath": "<LOCAL-APP-DATA>/hermes/skills/note-taking/obsidian-vault-query",
+      "sourceSha256": "e542a06266649c812b3e6eb6dd4d0656966961109956c76e1878408b9ffe9414",
+      "sourceType": "hong-local-custom"
+    }
+  ]
+}
