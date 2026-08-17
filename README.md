@@ -109,6 +109,20 @@ public clone as a forward commit rather than a history rewrite; and the push and
 any deploy remain a separate, explicitly approved gate. Nothing in this
 repository automates that carry.
 
+## One-command install on a fresh PC
+
+`bootstrap/setup.ps1` wraps the installer below and resolves every path itself:
+the repository root from the extracted ZIP or clone it sits in (downloading the
+current `main.zip` from GitHub only when run outside one), and the three
+destination homes from `%LOCALAPPDATA%\hermes`, `%USERPROFILE%\.claude`, and
+`%USERPROFILE%\.codex`. It shows the dry-run plan and asks for one confirmation
+before applying; every path can still be overridden with a parameter. It is the
+one script here that may make a network call, and only to fetch that archive.
+
+```text
+powershell -ExecutionPolicy Bypass -File bootstrap\setup.ps1
+```
+
 ## The apply gate
 
 A dry run is free. An apply is a user-approved gate.
