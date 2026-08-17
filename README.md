@@ -81,12 +81,33 @@ machine-local path, never the author address — across the commit shape, the
 identity, the package set, the exclusions, machine-local paths, forbidden files,
 and credential-shaped assignments.
 
-`test-download-function.mjs` runs the Edge Function source in a Node `vm`
-context whose only global is a `Deno.serve` stub, so the real handler is invoked
-and its real response is checked: HTTP 200, `text/html; charset=utf-8`, the
-accessible static markup, no client-side JavaScript or external asset, and
-exactly the two approved links. No port is opened and `fetch` is deliberately
-absent from that context.
+The download site is `Supabase 302 no-store -> GitHub Pages -> static
+index.html`. The Edge Function hosts no HTML: it answers with a fixed 302 to the
+Pages URL, a `Cache-Control: no-store` header, and no body, and
+`supabase/config.toml` declares it `verify_jwt = false`, so it is a public
+endpoint. GitHub Pages serves the repository-root `index.html` from the `main`
+branch of the public repository.
+
+`test-download-function.mjs` proves both halves locally. It reads `index.html`
+from disk and checks its accessible static markup, the absence of client-side
+JavaScript and external assets, and exactly the two approved links; it then runs
+the function source in a Node `vm` context that supplies a `Deno.serve` stub
+alongside the standard Web constructors and deliberately omits `fetch`, so the
+real handler is invoked and its real response is checked for status
+302, that exact `Location`, an empty body, and `no-store`. No port is opened and
+`fetch` is deliberately absent from that context.
+
+Those four artifacts — `index.html`, `supabase/config.toml`,
+`supabase/functions/download/index.ts`, and `scripts/test-download-function.mjs`
+— are required. The builder refuses to finish without them and the verifier
+fails without them, each from its own list: the verifier imports nothing from
+the builder, so relaxing a builder allowlist does not relax the proof.
+
+Publication order of record: the canonical repository is the source; a fresh
+snapshot is built and verified from it; its content is carried into the existing
+public clone as a forward commit rather than a history rewrite; and the push and
+any deploy remain a separate, explicitly approved gate. Nothing in this
+repository automates that carry.
 
 ## The apply gate
 

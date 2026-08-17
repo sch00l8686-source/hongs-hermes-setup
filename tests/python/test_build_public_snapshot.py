@@ -26,7 +26,7 @@ import sys
 import tempfile
 import unittest
 
-from importlib.machinery import SourceFileLoader
+import importlib.util
 
 import harness_test_support as support
 
@@ -35,8 +35,18 @@ baseline = support.baseline
 BUILDER = os.path.join(support.SCRIPTS_DIR, "build-public-snapshot.py")
 VERIFIER = os.path.join(support.SCRIPTS_DIR, "verify-public-snapshot.py")
 
-builder = SourceFileLoader("public_snapshot_builder_under_test", BUILDER).load_module()
-verifier = SourceFileLoader("public_snapshot_verifier_under_test", VERIFIER).load_module()
+
+def load_script(name, path):
+    """Import a hyphenated CLI script as ``name`` for direct inspection."""
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+builder = load_script("public_snapshot_builder_under_test", BUILDER)
+verifier = load_script("public_snapshot_verifier_under_test", VERIFIER)
 
 #: A synthetic live-Hermes path under the Windows local application data root.
 #: It carries the marker the substitution recognises, so it must be rewritten.
@@ -64,6 +74,16 @@ FORBIDDEN_FIXTURES = (
     "runtime/router.jsonl",
     "keys/deploy.pem",
 )
+
+#: Minimal stand-ins for the four site artifacts every snapshot must carry. A
+#: synthetic fixture repository needs them because the builder now refuses a
+#: snapshot that would ship without the download site.
+SITE_ARTIFACT_FIXTURES = {
+    "index.html": "<!doctype html>\n<title>fixture page</title>\n",
+    "supabase/config.toml": "[functions.download]\nverify_jwt = false\n",
+    "supabase/functions/download/index.ts": "// fixture function\n",
+    "scripts/test-download-function.mjs": "// fixture proof\n",
+}
 
 #: The build the whole module shares, plus the canonical state captured around
 #: it. Building once keeps the suite focused: the mutation tests copy this
@@ -128,9 +148,9 @@ def run_builder(root, staging):
     )
 
 
-def run_verifier(staging):
+def run_verifier(staging, verifier_path=None):
     completed = subprocess.run(
-        [sys.executable, VERIFIER, "--staging", staging],
+        [sys.executable, verifier_path or VERIFIER, "--staging", staging],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         cwd=support.REPO_ROOT,
@@ -443,6 +463,59 @@ class VerifierFailureTests(SnapshotFixture):
         self.assertIn("machine-local-paths", failed_checks(stdout))
         self.assertIn("unclassified machine-local path :: docs/notes.md", stdout)
 
+    def test_a_missing_required_artifact_fails_the_verifier(self):
+        """The verifier owns the site contract: no artifact, no PASS."""
+        workspace = tempfile.mkdtemp(prefix="public-snapshot-artifact-")
+        self.addCleanup(shutil.rmtree, workspace, True)
+        staging = os.path.join(workspace, "snapshot")
+        shutil.copytree(self.staging, staging)
+        os.remove(baseline.repo_path(staging, "index.html"))
+        git(staging, "add", "--all")
+        git(staging, "commit", "--quiet", "--amend", "--no-edit")
+
+        code, stdout, _stderr = run_verifier(staging)
+        self.assertEqual(1, code)
+        self.assertIn("required-site-artifacts", failed_checks(stdout))
+        self.assertIn("index.html", stdout)
+
+    def test_the_verifier_rejects_a_snapshot_whose_builder_was_relaxed(self):
+        """Independence is behavioural, not a constant that happens to match.
+
+        The mutated snapshot relaxes its own copy of the builder -- the excluded
+        documentation prefixes are emptied and the leaked file is declared a
+        classified machine-local fixture -- and then leaks a private file that
+        carries a machine-local path. The snapshot's own verifier is the one
+        run, so a verifier that read its policy from the builder beside it would
+        accept this. The verifier must reject it on its own rules.
+        """
+        leaked = "docs/superpowers/leaked.md"
+        staging = self.dirty_copy(
+            {
+                leaked: SYNTHETIC_UNKNOWN_LOCAL_TEXT,
+                "scripts/build-public-snapshot.py": self.relaxed_builder_source(leaked),
+            }
+        )
+        code, stdout, _stderr = run_verifier(
+            staging, os.path.join(staging, "scripts", "verify-public-snapshot.py")
+        )
+        self.assertEqual(1, code)
+        self.assertIn("expected-exclusions", failed_checks(stdout))
+        self.assertIn("machine-local-paths", failed_checks(stdout))
+        self.assertIn("unclassified machine-local path :: %s" % leaked, stdout)
+
+    def relaxed_builder_source(self, leaked):
+        """The staged builder source with its exclusion and fixture lists relaxed."""
+        source = read_text(self.staging, "scripts/build-public-snapshot.py")
+        relaxed = source.replace(
+            'EXCLUDED_PREFIXES = ("docs/status/", "docs/superpowers/")',
+            "EXCLUDED_PREFIXES = ()",
+        ).replace(
+            "CLASSIFIED_MACHINE_LOCAL_FIXTURES = {",
+            'CLASSIFIED_MACHINE_LOCAL_FIXTURES = {\n    "%s": "relaxed-builder-fixture",' % leaked,
+        )
+        self.assertNotEqual(source, relaxed, "the builder relaxation did not apply")
+        return relaxed
+
     def test_a_dropped_approved_package_fails_the_package_checks(self):
         workspace = tempfile.mkdtemp(prefix="public-snapshot-dropped-")
         self.addCleanup(shutil.rmtree, workspace, True)
@@ -494,11 +567,14 @@ class BuildRefusalTests(unittest.TestCase):
         approved_extra = "scripts/verify-public-snapshot.py"
         managed_source = baseline.managed_sources()[0]
         workspace, root = self.make_repository(
-            tracked={
-                "README.md": "fixture\n",
-                "docs/status/handoff.md": "private handoff\n",
-                "docs/superpowers/specs/design.md": "private design\n",
-            },
+            tracked=dict(
+                SITE_ARTIFACT_FIXTURES,
+                **{
+                    "README.md": "fixture\n",
+                    "docs/status/handoff.md": "private handoff\n",
+                    "docs/superpowers/specs/design.md": "private design\n",
+                }
+            ),
             untracked={
                 approved_extra: "# approved extra\n",
                 managed_source: "# managed source\n",
@@ -518,8 +594,22 @@ class BuildRefusalTests(unittest.TestCase):
         self.assertIn("skipped 1 unapproved untracked file(s)", stdout)
         self.assertIn("excluded 2 file(s)", stdout)
 
+    def test_a_missing_required_site_artifact_fails_the_build_closed(self):
+        """A snapshot without the download site is refused, not published."""
+        missing = "index.html"
+        tracked = {name: text for name, text in SITE_ARTIFACT_FIXTURES.items() if name != missing}
+        tracked["README.md"] = "fixture\n"
+        workspace, root = self.make_repository(tracked=tracked)
+        (code, _stdout, stderr), staging = self.build(root, workspace=workspace)
+        self.assertEqual(1, code)
+        self.assertIn("required site artifact", stderr)
+        self.assertIn(missing, stderr)
+        self.assertFalse(os.path.isdir(os.path.join(staging, ".git")))
+
     def test_a_nonempty_staging_directory_is_refused(self):
-        workspace, root = self.make_repository(tracked={"README.md": "fixture\n"})
+        workspace, root = self.make_repository(
+            tracked=dict(SITE_ARTIFACT_FIXTURES, **{"README.md": "fixture\n"})
+        )
         staging = os.path.join(workspace, "occupied")
         os.makedirs(staging)
         write_text(staging, "existing.txt", "already here\n")
@@ -530,7 +620,10 @@ class BuildRefusalTests(unittest.TestCase):
 
     def test_a_surviving_machine_local_path_fails_the_build_closed(self):
         workspace, root = self.make_repository(
-            tracked={"README.md": "fixture\n", "docs/notes.md": SYNTHETIC_UNKNOWN_LOCAL_TEXT}
+            tracked=dict(
+                SITE_ARTIFACT_FIXTURES,
+                **{"README.md": "fixture\n", "docs/notes.md": SYNTHETIC_UNKNOWN_LOCAL_TEXT}
+            )
         )
         (code, _stdout, stderr), staging = self.build(root, workspace=workspace)
         self.assertEqual(1, code)

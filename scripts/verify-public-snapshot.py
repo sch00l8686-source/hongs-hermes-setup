@@ -10,9 +10,10 @@ and classifications only**. It never prints a matched value: not a secret, not a
 machine-local path, not the author address. A reader learns how many findings
 exist, in which file, and of which category -- never what the finding says.
 
-The expected package set, identity, and exclusions are spelled out in this file
-rather than read from the staged tree, so a snapshot that also rewrote its own
-allowlist still fails.
+The expected package set, identity, exclusions, machine-local patterns,
+classified fixtures, and required site artifacts are spelled out in this file
+rather than read from the staged tree or imported from the builder, so a
+snapshot that also rewrote the builder's own allowlist still fails.
 
 Exit codes
 ----------
@@ -30,22 +31,43 @@ import subprocess
 import sys
 import tempfile
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-from importlib.machinery import SourceFileLoader  # noqa: E402
-
-_SNAPSHOT_BUILDER = SourceFileLoader(
-    "public_snapshot_builder",
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), "build-public-snapshot.py"),
-).load_module()
-
-CLASSIFIED_MACHINE_LOCAL_FIXTURES = _SNAPSHOT_BUILDER.CLASSIFIED_MACHINE_LOCAL_FIXTURES
-MACHINE_LOCAL_PATTERNS = _SNAPSHOT_BUILDER.MACHINE_LOCAL_PATTERNS
-EXCLUDED_PREFIXES = _SNAPSHOT_BUILDER.EXCLUDED_PREFIXES
-
 # --------------------------------------------------------------------------
 # Expected snapshot contract
 # --------------------------------------------------------------------------
+
+#: Documentation trees that must never appear in a published snapshot.
+EXCLUDED_PREFIXES = ("docs/status/", "docs/superpowers/")
+
+#: The four artifacts of the download site the snapshot advertises: the page
+#: GitHub Pages serves, the Edge Function that redirects to it, the config
+#: declaring that function JWT-less, and the local proof of both. A snapshot
+#: whose commit is missing any of them fails.
+REQUIRED_SITE_ARTIFACTS = (
+    "index.html",
+    "supabase/config.toml",
+    "supabase/functions/download/index.ts",
+    "scripts/test-download-function.mjs",
+)
+
+#: Synthetic machine-local fixtures: test inputs that exist to prove a
+#: machine-local path is detected, classified here by exact path and category.
+#: Declaring a file a fixture is a decision this verifier makes on its own.
+CLASSIFIED_MACHINE_LOCAL_FIXTURES = {
+    "tests/python/test_validate_harness.py": "validator-machine-local-fixture",
+    "tests/python/test_supervisor_cost.py": "cost-record-machine-local-fixture",
+    "tests/python/test_build_public_snapshot.py": "snapshot-builder-machine-local-fixture",
+}
+
+#: Machine-local path shapes. ``windows-user-profile`` accepts a doubled
+#: backslash as a separator as well as a single one, so a path hidden inside a
+#: JSON or Python string literal is still found.
+MACHINE_LOCAL_PATTERNS = (
+    ("windows-user-profile", re.compile(r"[A-Za-z]:(?:\\{1,2}|/)Users(?:(?:\\{1,2}|/)[^\s`'\"<>|)\]\\/]+)+")),
+    ("windows-program-dir", re.compile(r"[A-Za-z]:(?:\\{1,2}|/)Program(?: |%20)?Files")),
+    ("posix-home", re.compile(r"/(?:home|Users)/[A-Za-z0-9._-]+/")),
+    ("windows-env-home", re.compile(r"%(?:LOCALAPPDATA|APPDATA|USERPROFILE|HOMEPATH|HOMEDRIVE)%")),
+    ("powershell-env-home", re.compile(r"\$env:(?:LOCALAPPDATA|APPDATA|USERPROFILE)")),
+)
 
 EXPECTED_BRANCH = "main"
 EXPECTED_COMMIT_COUNT = 1
@@ -277,6 +299,21 @@ def check_skill_packages(paths, report):
     )
 
 
+def check_required_artifacts(paths, report):
+    """The download site the snapshot advertises is actually committed."""
+    present = set(paths)
+    missing = sorted(
+        artifact for artifact in REQUIRED_SITE_ARTIFACTS if artifact not in present
+    )
+    report.add(
+        "required-site-artifacts",
+        not missing,
+        "%d/%d required artifact(s) present"
+        % (len(REQUIRED_SITE_ARTIFACTS) - len(missing), len(REQUIRED_SITE_ARTIFACTS)),
+    )
+    return missing
+
+
 def check_exclusions(paths, report):
     leaked = sorted(path for path in paths if path.startswith(EXCLUDED_PREFIXES))
     report.add(
@@ -396,12 +433,15 @@ def verify(staging):
     check_commit_shape(staging, report)
     check_identity(staging, report)
     check_skill_packages(paths, report)
+    missing_artifacts = check_required_artifacts(paths, report)
     check_exclusions(paths, report)
     machine_local, classified = check_machine_local(staging, paths, report)
     forbidden = check_forbidden_files(paths, report)
     secrets = check_secrets(staging, paths, report)
 
     detail = []
+    for relative in missing_artifacts:
+        detail.append("missing required site artifact :: %s" % relative)
     for relative, category in sorted(CLASSIFIED_MACHINE_LOCAL_FIXTURES.items()):
         if relative in classified:
             detail.append(

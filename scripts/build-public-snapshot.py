@@ -78,17 +78,31 @@ PORTABLE_SUBSTITUTION_FILES = (
     "provenance/upstream-lock.json",
 )
 
-#: Untracked files outside ``baseline/`` that the snapshot publishes anyway: the
-#: approved site and publication implementation, which is authored for this
-#: snapshot and is not yet committed to canonical history. Like every other list
-#: here it is spelled out, so an unrelated untracked file is never published.
+#: The explicit publication artifacts outside ``baseline/``: the approved site
+#: and publication implementation. They are published when they appear untracked
+#: in a source worktree; a tracked copy is included like any other tracked file.
+#: Like every other list here it is spelled out, so an unrelated untracked file
+#: is never published.
 APPROVED_UNTRACKED_EXTRAS = (
+    "index.html",
     "scripts/build-public-snapshot.py",
     "scripts/test-download-function.mjs",
     "scripts/verify-public-snapshot.py",
     "supabase/config.toml",
     "supabase/functions/download/index.ts",
     "tests/python/test_build_public_snapshot.py",
+)
+
+#: The download site the snapshot exists to publish: the page GitHub Pages
+#: serves, the Edge Function that redirects to it, the config declaring that
+#: function JWT-less, and the local proof of both. A snapshot missing any of
+#: them would publish a repository whose advertised download site does not
+#: exist, so the build fails closed rather than shipping it.
+REQUIRED_SITE_ARTIFACTS = (
+    "index.html",
+    "supabase/config.toml",
+    "supabase/functions/download/index.ts",
+    "scripts/test-download-function.mjs",
 )
 
 #: Synthetic machine-local fixtures: test inputs that exist precisely to prove a
@@ -101,11 +115,18 @@ CLASSIFIED_MACHINE_LOCAL_FIXTURES = {
     "tests/python/test_build_public_snapshot.py": "snapshot-builder-machine-local-fixture",
 }
 
-#: Machine-local path shapes. ``windows-user-profile`` accepts a doubled
+#: The one machine-local shape the substitution rewrites. It accepts a doubled
 #: backslash as a separator as well as a single one, so a path hidden inside a
-#: JSON or Python string literal is still found.
+#: JSON or Python string literal is still found. It is named rather than reached
+#: for by position, so reordering the table below cannot change what is
+#: rewritten.
+WINDOWS_USER_PROFILE_PATTERN = re.compile(
+    r"[A-Za-z]:(?:\\{1,2}|/)Users(?:(?:\\{1,2}|/)[^\s`'\"<>|)\]\\/]+)+"
+)
+
+#: Every machine-local path shape the rescan reports, by label.
 MACHINE_LOCAL_PATTERNS = (
-    ("windows-user-profile", re.compile(r"[A-Za-z]:(?:\\{1,2}|/)Users(?:(?:\\{1,2}|/)[^\s`'\"<>|)\]\\/]+)+")),
+    ("windows-user-profile", WINDOWS_USER_PROFILE_PATTERN),
     ("windows-program-dir", re.compile(r"[A-Za-z]:(?:\\{1,2}|/)Program(?: |%20)?Files")),
     ("posix-home", re.compile(r"/(?:home|Users)/[A-Za-z0-9._-]+/")),
     ("windows-env-home", re.compile(r"%(?:LOCALAPPDATA|APPDATA|USERPROFILE|HOMEPATH|HOMEDRIVE)%")),
@@ -212,8 +233,7 @@ def _portable_windows_path(match):
 def to_portable_text(text):
     """Return ``text`` with the known machine-local roots replaced."""
     text = _ENV_HOME_PATTERN.sub(LOCAL_APP_DATA_PLACEHOLDER, text)
-    windows_user_profile = MACHINE_LOCAL_PATTERNS[0][1]
-    return windows_user_profile.sub(_portable_windows_path, text)
+    return WINDOWS_USER_PROFILE_PATTERN.sub(_portable_windows_path, text)
 
 
 def _is_scannable(relative):
@@ -258,6 +278,12 @@ def scan_machine_local(root, relatives):
 # --------------------------------------------------------------------------
 # Build
 # --------------------------------------------------------------------------
+
+def missing_site_artifacts(relatives):
+    """Return the required site artifacts absent from ``relatives``, sorted."""
+    present = set(relatives)
+    return sorted(artifact for artifact in REQUIRED_SITE_ARTIFACTS if artifact not in present)
+
 
 def prepare_staging(staging):
     """Create ``staging`` if absent; refuse a directory that is not empty."""
@@ -322,6 +348,11 @@ def build(root, staging):
     included, excluded, unapproved_untracked = select_files(root)
     if not included:
         raise BuildRefused("no files selected for the snapshot")
+    missing = missing_site_artifacts(included)
+    if missing:
+        raise BuildRefused(
+            "required site artifact(s) absent from the selected inputs: %s" % ", ".join(missing)
+        )
 
     prepare_staging(staging)
     copy_files(root, staging, included)
@@ -335,6 +366,13 @@ def build(root, staging):
         )
 
     initialise_repository(staging)
+
+    staged = _lines(git(staging, "ls-files"))
+    missing = missing_site_artifacts(staged)
+    if missing:
+        raise BuildRefused(
+            "required site artifact(s) absent from the staged tree: %s" % ", ".join(missing)
+        )
 
     commit_count = int(git(staging, "rev-list", "--count", "HEAD").strip())
     remotes = _lines(git(staging, "remote"))
